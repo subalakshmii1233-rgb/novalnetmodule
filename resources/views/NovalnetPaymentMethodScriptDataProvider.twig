@@ -6,10 +6,13 @@
 window.hideApplePayButton = function () {
 
     var nnPaymentMethodId = $('#nn_paymentmethod_id').val();
-
-    if (nnPaymentMethodId) {
-        $('li[data-id="' + nnPaymentMethodId + '"]').hide();
-    }
+    var iosDevice = iOS();
+        var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (iosDevice && isSafari) {
+            $('li[data-id="' + nnPaymentMethodId + '"]').show();
+        } else {
+            $('li[data-id="' + nnPaymentMethodId + '"]').hide();
+        }
 };
 
 window.showCheckoutButton = function () {
