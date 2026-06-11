@@ -59,10 +59,16 @@ window.showApplePayButton = function () {
 };
 
 function iOS() {
-  const ua = navigator.userAgent;
-
-  return /iPad|iPhone|iPod/.test(ua) ||
-         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  return [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod',
+    'MacIntel'
+  ].includes(navigator.platform)
+  || navigator.userAgent.includes("Mac");
 }
 
 $(document).ready(function () {
