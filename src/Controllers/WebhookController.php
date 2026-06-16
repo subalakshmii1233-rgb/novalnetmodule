@@ -225,6 +225,12 @@ class WebhookController extends Controller
      */
     public function validateIpAddress()
     {
+		 $this->getLogger(__METHOD__)->error('Webhook Header Debug', [
+            'HTTP_X_FORWARDED_HOST' => $_SERVER['HTTP_X_FORWARDED_HOST'] ?? '',
+            'HTTP_X_FORWARDED_FOR'  => $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '',
+            'HTTP_X_REAL_IP'        => $_SERVER['HTTP_X_REAL_IP'] ?? '',
+            'REMOTE_ADDR'           => $_SERVER['REMOTE_ADDR'] ?? ''
+        ]);
         $clientIp = $this->paymentHelper->getRemoteIpAddress($this->ipAllowed);
         // Condition to check whether the webhook is called from authorized IP
         if(!in_array($clientIp, $this->ipAllowed) && $this->settingsService->getPaymentSettingsValue('novalnet_webhook_testmode') != true) {
