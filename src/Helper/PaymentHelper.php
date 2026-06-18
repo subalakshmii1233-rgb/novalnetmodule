@@ -341,7 +341,6 @@ class PaymentHelper
             $invalidIp = $ip;
         }
     }
-
     return $invalidIp; 
    }
     /**
