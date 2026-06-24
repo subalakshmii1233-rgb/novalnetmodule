@@ -225,18 +225,9 @@ class WebhookController extends Controller
      */
     public function validateIpAddress()
     {
-		 $this->getLogger(__METHOD__)->error('Webhook Header Debug', [
-            'HTTP_X_FORWARDED_HOST' => $_SERVER['HTTP_X_FORWARDED_HOST'] ?? '',
-            'HTTP_X_FORWARDED_FOR'  => $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '',
-            'HTTP_X_REAL_IP'        => $_SERVER['HTTP_X_REAL_IP'] ?? '',
-            'REMOTE_ADDR'           => $_SERVER['REMOTE_ADDR'] ?? ''
-        ]);
+	
         $clientIp = $this->paymentHelper->getRemoteIpAddress($this->ipAllowed);
 
-		 $this->getLogger(__METHOD__)->error('WebhoDebug', [
-            'HTTP_HOST' =>   $clientIp ?? '',
-            'TEST'  => $this->settingsService->getPaymentSettingsValue('novalnet_webhook_testmode') ?? '',
-        ]);
         // Condition to check whether the webhook is called from authorized IP
         if(!in_array($clientIp, $this->ipAllowed) && $this->settingsService->getPaymentSettingsValue('novalnet_webhook_testmode') != true) {
             return $this->renderTemplate('Unauthorised access from the IP ' . $clientIp);
@@ -526,7 +517,7 @@ class WebhookController extends Controller
 
             // Booking Message
             $this->eventData['bookingText'] = $webhookComments;
-
+            $this->sendWebhookMail($webhookComments);
             // Create the payment to the plenty order
             $this->paymentHelper->createPlentyPayment($this->eventData);
 
