@@ -5,6 +5,16 @@ jQuery(document).ready(function() {
         var NovalnetPaymentInstance  = NovalnetPayment();
         var NovalnetWalletPaymentObj = NovalnetPaymentInstance.createPaymentObject();
         // Setup the payment intent
+
+        var value = jQuery('#nn_article_details').val();
+var lineItems = [];
+
+if (value && value.trim() !== "") {
+   
+        lineItems = JSON.parse(value);
+    
+}
+
         var requestData = {
             clientKey: String(jQuery('#nn_client_key').val()),
             paymentIntent: {
@@ -27,7 +37,7 @@ jQuery(document).ready(function() {
                 order: {
                     paymentDataPresent: false,
                     merchantName: String(jQuery('#nn_business_name').val()),
-                    lineItems: JSON.parse(jQuery('#nn_article_details').val()),
+                    // lineItems:lineItems,
                 },
                 button: {
                     type: jQuery('#nn_button_type').val(),
